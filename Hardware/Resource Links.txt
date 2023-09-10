@@ -1,0 +1,13 @@
+Speed Variable 10A: https://tutorial.cytron.io/2017/03/15/controlling-10a-dc-motor-driver-using-arduino-nano/
+
+encoder test with rpm: https://automaticaddison.com/how-to-calculate-the-velocity-of-a-dc-motor-with-encoder/
+
+motor driver: https://lastminuteengineers.com/l298n-dc-stepper-driver-arduino-tutorial/
+
+dc motor with 1A driver: https://arduinogetstarted.com/tutorials/arduino-dc-motor
+
+encoder: https://www.seeedstudio.com/blog/2020/01/19/rotary-encoders-how-it-works-how-to-use-with-arduino/
+
+motor encoder with potentiometer: https://dronebotworkshop.com/rotary-encoders-arduino/
+
+dc motor code with cytron motor driver arduino: https://www.google.com/search?q=dc+motor+code+with+cytron+motor+driver+arduino&safe=active&sxsrf=ALiCzsZ1mt15aeHqp6SvSpyQG05VL3eaJw:1653308022160&source=lnms&tbm=isch&sa=X&ved=2ahUKEwj5yPWqzPX3AhXm8rsIHUUiDjoQ_AUoAXoECAEQAw&biw=1536&bih=718&dpr=1.25#imgrc=G3gIoY03gkcdqM

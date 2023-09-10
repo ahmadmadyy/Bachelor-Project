@@ -1,0 +1,102 @@
+const int pwm = 9;
+const int dir = 10;
+const int inputCLK = 6;
+const int inputDT = 7;
+int max = 0;
+double x=0;
+int counter = 0; 
+int currentStateCLK;
+int previousStateCLK; 
+String encdir ="";
+double F_meas = 0;
+double tau = 0;
+double rpmo = 0;
+
+double kp = 4.2294;
+double ki = 65.5255;
+double kd = 0.068083;
+unsigned long currentTime, previousTime;
+double elapsedTime;
+double error;
+double lastError;
+double input, output, setpoint;
+double cumError, rateError;
+
+void setup() {
+  pinMode(pwm,OUTPUT); 
+  pinMode(dir,OUTPUT); 
+  pinMode (inputCLK,INPUT);
+  pinMode (inputDT,INPUT);
+  Serial.begin(9600);
+  setpoint = 5.15;
+  previousStateCLK = digitalRead(inputCLK);
+
+}
+double measure()
+ {
+   currentStateCLK = digitalRead(inputCLK);
+   if (currentStateCLK != previousStateCLK){ 
+     if (digitalRead(inputDT) != currentStateCLK) { 
+       counter --;
+       if(abs(counter)>max)
+       {
+        max = abs(counter);
+       }
+       
+     } else {
+       counter ++;
+       encdir ="CW";
+       if(abs(counter)>max)
+       {
+        max = abs(counter);
+       }
+       
+     }
+
+      Serial.print("   ");
+      Serial.print("counter= ");
+      Serial.print(counter);
+      Serial.println();
+      Serial.print("max= ");
+      Serial.print(max);
+      Serial.println();
+      Serial.print("x= ");
+      Serial.print(x);
+      Serial.println();
+   } 
+   previousStateCLK = currentStateCLK; 
+   return max*1.8/11.0;
+ }
+
+ double computePID(double inp){     
+        currentTime = millis();                
+        elapsedTime = (double)(currentTime - previousTime);        
+        
+        error = setpoint - inp;                               
+        cumError += error * elapsedTime;                
+        rateError = (error - lastError)/elapsedTime;   
+ 
+        double out = kp*error + ki*cumError + kd*rateError;                            
+ 
+        lastError = error;                                
+        previousTime = currentTime;                       
+ 
+        return out;                                        
+}
+
+void loop() {
+  x = measure();
+  F_meas = 10930.4*x*0.01;
+  output = computePID(F_meas);
+  digitalWrite(dir,LOW);
+  //analogWrite(pwm,output);
+  tau = output/1256.64;
+  rpmo = 944.82*tau - 250;
+  analogWrite(pwm,output);
+  delay(1000);
+  analogWrite(pwm,255);
+  delay(3000);
+  digitalWrite(dir,HIGH);
+  analogWrite(pwm,200);
+  max = 0;
+}
